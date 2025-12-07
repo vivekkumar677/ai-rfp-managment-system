@@ -21,7 +21,7 @@ export const createVendor = async (req, res) => {
 export const getVendors = async (req, res) => {
   try {
     const vendors = await Vendor.find();
-    res.status(200).json({ vendors }); // FIXED
+    res.status(200).json(vendors); // FIXED
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

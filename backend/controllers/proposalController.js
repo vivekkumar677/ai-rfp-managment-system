@@ -56,7 +56,8 @@ AI RFP Management System
 
 export const getProposals = async (req, res) => {
   try {
-    const proposals = await Proposal.find()
+    const { rfpId } = req.params;
+    const proposals = await Proposal.find({ rfpId }).populate("vendorId", "name email")
       .populate("rfp vendor");
     res.json(proposals);
   } catch (error) {

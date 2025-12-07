@@ -1,17 +1,15 @@
-// models/Proposal.js
 import mongoose from "mongoose";
 
 const proposalSchema = new mongoose.Schema({
   rfpId: { type: mongoose.Schema.Types.ObjectId, ref: "RFP", required: true },
-  vendorName: { type: String, required: true },
-  proposalText: { type: String, required: true },
-  analysis: {
-    score: Number,
-    summary: String,
-    issues: [String],
-    recommendation: String,
-  },
-  submittedAt: Date,
-});
+  vendorId: { type: mongoose.Schema.Types.ObjectId, ref: "Vendor", required: true },
+  amount: Number,
+  responseText: String,
+  score: Number,
+  summary: String,
+  recommendation: String,
+  issues: [String],
+}, { timestamps: true });
 
-export default mongoose.model("Proposal", proposalSchema);
+const Proposal = mongoose.model("Proposal", proposalSchema);
+export default Proposal;
