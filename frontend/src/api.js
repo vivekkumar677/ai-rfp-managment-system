@@ -15,7 +15,7 @@ export const sendRFPToVendors = (rfpId, vendorIds) =>
 export const createProposal = (proposalData) =>
   axios.post(`${API_URL}/proposals`, proposalData);
 
-export const getProposals = () => axios.get(`${API_URL}/proposals`);
+export const getProposals = (rfpId) => axios.get(`${API_URL}/proposals?rfpId=${rfpId}`);
 
 // ===== Vendor APIs =====
 export const getVendors = () => axios.get(`${API_URL}/vendors`);
