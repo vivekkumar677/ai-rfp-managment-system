@@ -58,7 +58,8 @@ export const getProposals = async (req, res) => {
   try {
     const { rfpId } = req.params;
     const proposals = await Proposal.find({ rfpId }).populate("vendorId", "name email")
-      .populate("rfp vendor");
+      .populate("rfp vendor")
+      .populate("rfp", "title description");
     res.json(proposals);
   } catch (error) {
     console.error(error);

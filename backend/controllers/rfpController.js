@@ -31,3 +31,21 @@ export const getRFPs = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const sendRFPToVendors = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { vendorIds } = req.body;
+
+    const rfp = await RFP.findById(id);
+    if (!rfp) return res.status(404).json({ message: "RFP not found" });
+
+    const vendors = await Vendor.find({ _id: { $in: vendorIds } });
+
+    await Promise.all(vendors.map(v => sendEmail(v, rfp)));
+
+    res.json({ success: true, message: "RFP sent to vendors" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
