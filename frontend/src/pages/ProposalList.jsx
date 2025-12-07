@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 import { useParams } from "react-router-dom";
 import { getProposals } from "../api";
 
@@ -10,17 +10,18 @@ export default function ProposalList() {
 
   useEffect(() => {
     if (!rfpId) return;
+
     setLoading(true);
     setError("");
 
     getProposals()
       .then((res) => {
         // Filter proposals for this RFP
-        const filtered = res.data.filter((p) => p.rfp._id === rfpId);
+        const filtered = res.data.filter((p) => p.rfpId === rfpId || p.rfp?._id === rfpId);
         setProposals(filtered);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Proposal Load Error:", err);
         setError("Failed to load proposals.");
       })
       .finally(() => setLoading(false));
@@ -41,18 +42,21 @@ export default function ProposalList() {
 
   return (
     <div className="container py-5">
-      <h1 className="text-center mb-4">Proposals for RFP</h1>
+      <h1 className="text-center mb-4">Proposals</h1>
       <div className="row">
         {proposals.map((proposal) => (
           <div className="col-md-6 mb-4" key={proposal._id}>
             <div className="card shadow-sm h-100">
-              <div className="card-header bg-success text-white fw-bold">{proposal.vendor.name}</div>
+              <div className="card-header bg-success text-white fw-bold">
+                {proposal.vendor?.name || "Unknown Vendor"}
+              </div>
               <div className="card-body d-flex flex-column">
                 <p><strong>Amount:</strong> ${proposal.amount}</p>
-                <p><strong>Analysis Score:</strong> {proposal.analysis?.score || "N/A"}</p>
-                <p><strong>Summary:</strong> {proposal.analysis?.summary || "N/A"}</p>
-                <p><strong>Recommendation:</strong> {proposal.analysis?.recommendation || "N/A"}</p>
-                <p><strong>Issues:</strong> {proposal.analysis?.issues?.join(", ") || "None"}</p>
+                <p><strong>Response:</strong> {proposal.responseText || "N/A"}</p>
+                <p><strong>Score:</strong> {proposal.score || "N/A"}</p>
+                <p><strong>Summary:</strong> {proposal.summary || "N/A"}</p>
+                <p><strong>Recommendation:</strong> {proposal.recommendation || "N/A"}</p>
+                <p><strong>Issues:</strong> {proposal.issues?.length ? proposal.issues.join(", ") : "None"}</p>
               </div>
             </div>
           </div>

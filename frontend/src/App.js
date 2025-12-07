@@ -19,7 +19,7 @@ function App() {
           <Route path="/rfps" element={<RFPList />} />
           <Route path="/rfps/:id/vendors" element={<Vendors />} />
           {/* RFP Proposals page */}
-          <Route path="/rfps/:id/proposals" element={<ProposalList />} />
+          <Route path="/rfps/:rfpId/proposals" element={<ProposalList />} />
         </Routes>
       </div>
     </Router>
